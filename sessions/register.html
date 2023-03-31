@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <style>
+        .container{
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    }          
+    h1, p{
+    text-align: center;
+    }   
+    /* font family is added */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+}
+
+h1, p {
+  text-align: center;
+}
+/* styles for button */
+button {
+  padding: 0.75em;
+  border: none;
+  outline: none;
+  background-color: rgb(68, 18, 232);
+  color: white;
+  border-radius: 0.25em;
+}
+
+/* hover functionality for button */
+button:hover {
+  cursor: pointer;
+  background-color: rgb(41, 4, 164);
+}
+
+
+input {
+  margin: 0.25em 0em 1em 0em;
+  outline: none;
+  padding: 0.5em;
+  border: none;
+  background-color: rgb(225, 225, 225);
+  border-radius: 0.25em;
+  color: black;
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+	<form method="post" action="/register">
+		<div class="container">
+			<h1>Register</h1>
+			<p>Kindly fill in this form to register.</p>
+
+			<label for="first_name"><b>First Name</b></label>
+			<input type="text" placeholder="Enter First Name" name="first_name" id="first_name" required>
+
+			<label for="last_name"><b>Last Name</b></label>
+			<input type="text" placeholder="Enter Last Name" name="last_name" id="last_name" required>
+
+			<label for="email"><b>Email</b></label>
+			<input type="email" placeholder="Enter Email" name="email" id="email" required>
+
+			<label for="password"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Passwords must contain at least 6 characters, including at least one number, one lowercase and one uppercase letter, and must match." required>
+
+			<label for="confirm_password"><b>Confirm Password</b></label>
+			<input type="password" placeholder="Confirm Password" name="confirm_password" id="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Passwords must contain at least 6 characters, including at least one number, one lowercase and one uppercase letter, and must match." required>
+
+			<button type="submit" name="submit">Register</button>
+		</div>
+
+		<div>
+			<p>Already have an account? <a href="login">Log in</a>.</p>
+		</div>
+	</form>
+</body>
+
+
+</html>
