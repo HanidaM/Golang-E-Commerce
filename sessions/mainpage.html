@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
+    <script src="https://kit.fontawesome.com/02ec7820c3.js" crossorigin="anonymous"></script>
     <style>
       .grid-container {
   display: grid;
@@ -128,7 +129,8 @@ form button[type="submit"] {
 </head>
 <body>
   <div class="cart">
-    <a href="/cart"><img src="shopping-cart-icon.png" alt="Shopping Cart"></a>
+    
+    <a href="/cart"><i class="fa-light fa-cart-shopping"></i></a>
     <span class="cart-count">{{.CartCount}}</span>
   </div>
   
@@ -159,24 +161,39 @@ form button[type="submit"] {
   </div>
   
   <div class="grid-container">
-      {{range .Products}}
-      <div class="item">
-          <img src="{{.Image}}" alt="{{.Name}}">
-          <h3>{{.Name}}</h3>
-          <p>{{.Description}}</p>
-          <p>Price: {{.Price}}</p>
-          <p>Rating: {{.Rating}}</p>
-          <form action="/rate" method="POST">
-              <input type="hidden" name="sku" value="{{.SKU}}">
-              <label for="rating">Rate this product:</label>
-              <input type="number" name="rating" id="rating" min="1" max="5" required>
-              <button type="submit">Rate</button>
-              <button type="addbasket">Add to Basket</button>
-
-          </form>
-      </div>
-      {{end}}
+    {{range .Products}}
+    <div class="item">
+      <img src="{{.Image}}" alt="{{.Name}}">
+      <h3>{{.Name}}</h3>
+      <p>{{.Description}}</p>
+      <p>Price: {{.Price}}</p>
+      <p>Rating: <span class="rating">{{.Rating}}</span></p>
+      <form class="rating-form" data-product-id="{{.ID}}" action="/rate" method="POST">
+        <label for="rating">Rate this product:</label>
+        <input type="number" name="rating" id="rating" min="1" max="5" required>
+        <button type="submit">Rate</button>
+        <button type="addbasket">Add to Basket</button>
+      </form>
+    </div>
+    {{end}}
   </div>
+  <script>
+    $(function() {
+      // Listen for the rating form submit event
+      $(".rating-form").submit(function(e) {
+        e.preventDefault();
+        // Get the product ID and rating from the form data
+        var productId = $(this).data("product-id");
+        var rating = $(this).find("#rating").val();
+        // Send a POST request to update the rating in the database
+        $.post("/rate", { productId: productId, rating: rating }, function() {
+          // Update the rating displayed on the page
+          $(".item[data-product-id=" + productId + "] .rating").text(rating);
+        });
+      });
+    });
+  </script>
+  
 
   
 </body>

@@ -15,6 +15,14 @@ const (
 	dbname   = "gshop"
 )
 
+// const (
+// 	host     = "ep-misty-cloud-327990.us-east-2.aws.neon.tech"
+// 	port     = 5432
+// 	user     = "baurzhkk"
+// 	password = "rXGDm0y6ViTF"
+// 	dbname   = "shopdb"
+// )
+
 func ConnectDB() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)

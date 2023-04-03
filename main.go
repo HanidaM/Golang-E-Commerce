@@ -17,10 +17,11 @@ func main() {
 	r.GET("/register", handlers.ShowRegisterPage)
 	r.GET("/login", handlers.ShowLoginPage)
 	r.GET("/main", handlers.ShowMainPage)
+	r.GET("/cart", handlers.ShowCartPage)
 	r.POST("/register", handlers.RegisterHandler)
 	r.POST("/login", handlers.LoginHandler)
 	r.POST("/main", handlers.CreateProductHandler)
-	r.GET("/", handlers.ShowMainPage)
+	r.POST("/cart", handlers.ShowCartPage)
 
 	http.ListenAndServe(":8080", r)
 }

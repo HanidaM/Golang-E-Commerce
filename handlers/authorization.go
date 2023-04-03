@@ -17,7 +17,7 @@ func ShowRegisterPage(c *gin.Context) {
 func ShowLoginPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.html", gin.H{})
 }
-func ShowCart(c *gin.Context){
+func ShowCartPage(c *gin.Context){
 	c.HTML(http.StatusOK,"cart.html",gin.H{})
 }
 
