@@ -137,28 +137,31 @@ form button[type="submit"] {
 
 
   <form method="GET" action="/main">
-    <label for="price">Price:</label>
-    <select id="price" name="price">
-      <option value="low">Low to High</option>
-      <option value="high">High to Low</option>
+    <label for="sort_by">Sort by:</label>
+    <select id="sort_by" name="sort_by">
+      <option value="cost">Price</option>
+      <option value="rating">Rating</option>
     </select>
   
-    <label for="rating">Rating:</label>
-    <select id="rating" name="rating">
-      <option value="low">Low to High</option>
-      <option value="high">High to Low</option>
+    <label for="order">Order:</label>
+    <select id="order" name="order">
+      <option value="asc">Low to High</option>
+      <option value="desc">High to Low</option>
     </select>
   
     <button type="submit">Filter</button>
-  </form>
-  
+</form>
 
 
 
-  <div class="search-bar">
-    <input type="text" placeholder="Search...">
+
+<div class="search-bar">
+  <form action="/search" method="GET">
+    <input type="text" name="title" placeholder="Search...">
     <button type="submit">Search</button>
-  </div>
+  </form>
+</div>
+
   
   <div class="grid-container">
     {{range .Products}}
@@ -179,15 +182,11 @@ form button[type="submit"] {
   </div>
   <script>
     $(function() {
-      // Listen for the rating form submit event
       $(".rating-form").submit(function(e) {
         e.preventDefault();
-        // Get the product ID and rating from the form data
         var productId = $(this).data("product-id");
         var rating = $(this).find("#rating").val();
-        // Send a POST request to update the rating in the database
         $.post("/rate", { productId: productId, rating: rating }, function() {
-          // Update the rating displayed on the page
           $(".item[data-product-id=" + productId + "] .rating").text(rating);
         });
       });
