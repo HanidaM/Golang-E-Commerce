@@ -114,7 +114,7 @@ func DeleteProductByID(c *gin.Context) {
 }
 
 func SearchProductByTitle(c *gin.Context) {
-	searchQuery := c.Query("title")
+	searchQuery := c.Query("description")
 
 	db, err := database.ConnectDB()
 	if err != nil {
@@ -123,15 +123,11 @@ func SearchProductByTitle(c *gin.Context) {
 	}
 
 	var products []models.Product
-	err = db.Where("title LIKE ?", "%"+searchQuery+"%").Find(&products).Error
+	err = db.Where("description LIKE ?", "%"+searchQuery+"%").Find(&products).Error
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-
-	c.HTML(http.StatusOK, "mainpage.html", gin.H{
-		"search_query": searchQuery,
-		"products":     products})
 
 	c.JSON(http.StatusOK, gin.H{"data": products})
 
@@ -174,6 +170,12 @@ func GetSortedProducts(c *gin.Context) {
 			})
 		}
 	}
+
+	c.HTML(http.StatusOK, "mainpage.html", gin.H{
+		"Products": products,
+		"SortBy":   sortBy,
+		"Order":    order,
+	})
 
 	c.JSON(http.StatusOK, gin.H{"data": products})
 
