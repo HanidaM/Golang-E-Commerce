@@ -15,19 +15,28 @@ func main() {
 	r.LoadHTMLGlob("sessions/*.html")
 
 	r.GET("/register", handlers.ShowRegisterPage)
-	r.GET("/login", handlers.ShowLoginPage)
-	r.GET("/main", handlers.ShowMainPage)
-	r.GET("/cart", handlers.ShowCartPage)
-	r.GET("/products", handlers.GetAllProducts)
-	r.GET("/products/:id", handlers.GetProductByID)
-	r.GET("/products/search", handlers.SearchProductByTitle)
-	r.GET("/products/sort", handlers.GetSortedProducts)
 	r.POST("/register", handlers.RegisterHandler)
+
+	r.GET("/login", handlers.ShowLoginPage)
 	r.POST("/login", handlers.LoginHandler)
+	r.POST("/logout", handlers.Logout)
+	
+
+	r.GET("/", handlers.ShowMainPage)
+
+	r.POST("/cart/add", handlers.AddToCart)
+
+	r.POST("/products/:id/rating", handlers.UpdateProductRating)
+	r.POST("/products/:id/comments", handlers.HandleComment)
 	r.POST("/products/add", handlers.CreateProductHandler)
-	r.POST("/cart", handlers.ShowCartPage)
-	r.PUT("/products/:id", handlers.UpdateProductByID)
-	r.DELETE("/products/:id", handlers.DeleteProductByID)
+
+	r.GET("/products", handlers.GetAllProducts)
+	// r.GET("/products/:id", handlers.GetProductByID)
+	// r.GET("/products/search", handlers.SearchProductByTitle)
+	// r.GET("/products/sort", handlers.GetSortedProducts)
+	// r.PUT("/products/:id", handlers.UpdateProductByID)
+	// r.DELETE("/products/:id", handlers.DeleteProductByID)
+
 
 	http.ListenAndServe(":8080", r)
 }

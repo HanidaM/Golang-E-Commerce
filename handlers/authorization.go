@@ -5,7 +5,9 @@ import (
 	"golangfinal/database"
 	"golangfinal/models"
 	"net/http"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -16,10 +18,6 @@ func ShowRegisterPage(c *gin.Context) {
 
 func ShowLoginPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.html", gin.H{})
-}
-
-func ShowCartPage(c *gin.Context){
-	c.HTML(http.StatusOK,"cart.html",gin.H{})
 }
 
 func RegisterHandler(c *gin.Context) {
@@ -101,5 +99,25 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	c.Redirect(http.StatusFound, "/main")
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"email":  email,
+		"user_id": existingUser.ID, 
+		"exp":    time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.SetCookie("token", tokenString, int(time.Hour*24/time.Second), "/", "", false, true)
+
+	c.Redirect(http.StatusFound, "/")
+}
+
+
+func Logout(c *gin.Context) {
+	c.SetCookie("token", "", -1, "/", "", false, true)
+	c.Redirect(http.StatusSeeOther, "/")
 }
